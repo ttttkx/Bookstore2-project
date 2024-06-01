@@ -68,7 +68,7 @@ def search_all(title, author, publisher, isbn, content, tags, book_intro, page=1
 class BookDB:
     def __init__(self, large: bool = False):
             
-        engine = create_engine('postgresql://postgres:postgreSQL^102938@localhost:5432/bookstore')
+        engine = create_engine('postgresql://postgres:password@localhost:5432/bookstore')
 
         Session = sessionmaker(bind=engine)
         self.session = Session()
