@@ -112,4 +112,34 @@ class Seller(db_conn.DBConn):
             return 530, "{}".format(str(e))
         return 200, "ok"
 
+    #发货
+    def ship_order(self, store_id: str, order_id: str) -> (int, str):
+        try:
+            if not self.store_id_exist(store_id):
+                return error.error_exist_store_id(store_id)
+
+            order_data = self.conn.query(NewOrder).filter_by(order_id=order_id).first()
+            if order_data is None:
+                return error.error_invalid_order_id(order_id)
+
+            if order_data.store_id != store_id:
+                return error.error_authorization_fail()
+
+            if order_data.status == "shipped":
+                return 200, "Order is already shipped."
+
+            if order_data.status != "paid":
+                return error.error_status_fail(order_id)
+
+            # 更新订单状态为 "shipped" 并记录发货时间
+            order_data.status = "shipped"
+            order_data.shipped_at = datetime.now().isoformat()
+            
+            self.conn.commit()
+        except BaseException as e:
+            return 530, "{}".format(str(e))
+
+        return 200, "ok"
+
+
 
