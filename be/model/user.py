@@ -53,6 +53,7 @@ class User(db_conn.DBConn):
                 balance=0,
                 token=token,
                 terminal=terminal,
+                address = None
             )
 
             self.conn.add(user_info)
@@ -165,6 +166,23 @@ class User(db_conn.DBConn):
             result.password = new_password
             result.token = token
             result.terminal = terminal
+
+            self.conn.commit()
+            
+        except IntegrityError as e:
+            self.conn.rollback()
+            return 528, "{}".format(str(e))
+        
+        except BaseException as e:
+            return 530, "{}".format(str(e))
+        
+        return 200, "ok"
+
+
+    def set_address(self, user_id: str, address: str):    
+        try:
+            result = self.conn.query(UserModel).filter_by(user_id=user_id).first()
+            result.address = address
 
             self.conn.commit()
             
