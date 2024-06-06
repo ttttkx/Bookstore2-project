@@ -40,3 +40,10 @@ class Auth:
         url = urljoin(self.url_prefix, "unregister")
         r = requests.post(url, json=json)
         return r.status_code
+
+
+    def set_address(self, user_id: str, address: str) -> int:    
+        json = {"user_id": user_id, "address": address}
+        url = urljoin(self.url_prefix, "address")
+        r = requests.post(url, json=json)
+        return r.status_code
