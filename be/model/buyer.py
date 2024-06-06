@@ -197,18 +197,18 @@ class Buyer(db_conn.DBConn):
         try:
             order_data = self.conn.query(NewOrder).filter_by(order_id=order_id).first()
 
-            # if order_data is None:
-            #     return error.error_invalid_order_id(order_id)
+            if order_data is None:
+                return error.error_invalid_order_id(order_id)
 
-            # if order_data.user_id != user_id:
-            #     return error.error_authorization_fail()
+            if order_data.user_id != user_id:
+                return error.error_authorization_fail()
 
             if order_data.status != "unpaid":
                 return error.error_status_fail(order_id)
 
             user_data = self.conn.query(UserModel).filter_by(user_id=user_id).first()
-            # if user_data is None:
-            #     return error.error_non_exist_user_id(user_id)
+            if user_data is None:
+                return error.error_non_exist_user_id(user_id)
 
             if password != user_data.password:
                 return error.error_authorization_fail()
