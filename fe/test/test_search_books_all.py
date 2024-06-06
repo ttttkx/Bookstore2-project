@@ -6,12 +6,10 @@ import uuid
 import random
 
 
-
 class TestSearchBooksAll:
     @pytest.fixture(autouse=True)
     def pre_run_initialization(self, str_len=2):
 
-        # 测试的时候要用已有的数据，已有的数据存在book里，不应该改动
         book_db = book.BookDB()
         self.books = book_db.get_book_info(0, book_db.get_book_count())
         self.json = {
@@ -42,16 +40,6 @@ class TestSearchBooksAll:
                 return [book.id for book in self.books]
 
             res = []
-            # for d in self.books:
-            #     flag = 0
-            #     for key, substring in processed_json.items():
-            #         if getattr(d, key) is not None:
-            #             if getattr(d, key).find(substring) == -1:
-            #                 flag=1
-            #         else:
-            #             flag=1
-            #     if flag==0:
-            #         res.append(d.id)
             for book in self.books:
                 flag = 0
                 for key, value in processed_json.items():
@@ -68,17 +56,10 @@ class TestSearchBooksAll:
                                          json_list[5], json_list[6],1,100000000)
         assert code == 200
         res = [i['id'] for i in res['data']]
-        print('搜索结果',len(res), res)
         right_answer = check_ok()
-        print('真实结果',len(right_answer), right_answer)
-        assert len(right_answer) <= len(res)
-        # check_ok()
+        assert len(right_answer) == len(res)
         for i in right_answer:
             if i not in res:
-                assert False  # 搜索结果不正确
+                assert False
 
 
-# if __name__ == "__main__":
-#     t = TestSearchBooksAll()
-#     t.pre_run_initialization()
-#     t.test_ok()
