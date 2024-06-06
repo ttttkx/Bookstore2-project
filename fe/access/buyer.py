@@ -25,6 +25,36 @@ class Buyer:
         response_json = r.json()
         return r.status_code, response_json.get("order_id")
     
+    def discount(self, order_id: str):
+        json = {
+            "user_id": self.user_id,
+            "order_id": order_id,
+        }
+        url = urljoin(self.url_prefix, "discount")
+        headers = {"token": self.token}
+        r = requests.post(url, headers=headers, json=json)
+        return r.status_code, r.json()
+    
+    def postage(self, order_id: str):           
+        json = {
+            "user_id": self.user_id,
+            "order_id": order_id,
+        }
+        url = urljoin(self.url_prefix, "postage")
+        headers = {"token": self.token}
+        r = requests.post(url, headers=headers, json=json)
+        return r.status_code, r.json()
+    
+    def recommend(self, store_id: str, order_id: str):          
+        json = {
+            "store_id": store_id,
+            "order_id": order_id,
+        }
+        url = urljoin(self.url_prefix, "recommend")
+        headers = {"token": self.token}
+        r = requests.post(url, headers=headers, json=json)
+        return r.status_code, r.json()
+    
 
     def payment(self, order_id: str):
         json = {
@@ -86,3 +116,12 @@ class Buyer:
         r = requests.post(url, headers=headers, json=json)
         return r.status_code
 
+    def return_purchase(self, order_id):
+        json = {
+            "user_id": self.user_id,
+            "order_id": order_id,
+        }
+        url = urljoin(self.url_prefix, "return_purchase")
+        headers = {"token": self.token}
+        r = requests.post(url, headers=headers, json=json)
+        return r.status_code
