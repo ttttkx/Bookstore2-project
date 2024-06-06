@@ -7,8 +7,8 @@ from be.view import auth, book
 from be.view import seller
 from be.view import buyer
 from be.model.store import init_database
-from apscheduler.schedulers.background import BackgroundScheduler  # 导入背景调度器
-from be.model.order_auto_cancel import OrderAutoCancel  # 导入定时任务
+from apscheduler.schedulers.background import BackgroundScheduler
+from be.model.order_auto_cancel import OrderAutoCancel
 
 bp_shutdown = Blueprint("shutdown", __name__)
 
@@ -27,9 +27,9 @@ def be_shutdown():
 
 def start_order_auto_cancel():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(OrderAutoCancel().cancel_unpaid_orders, 'interval', minutes=1) 
+    scheduler.add_job(OrderAutoCancel().cancel_unpaid_orders, 'interval', minutes=1)
     scheduler.start()
-    
+
 def be_run():
     this_path = os.path.dirname(__file__)
     parent_path = os.path.dirname(this_path)
@@ -43,8 +43,7 @@ def be_run():
     )
     handler.setFormatter(formatter)
     logging.getLogger().addHandler(handler)
-    
-    # 初始化和启动定时任务
+
     start_order_auto_cancel()
     
     app = Flask(__name__)
