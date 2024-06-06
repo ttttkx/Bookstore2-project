@@ -64,6 +64,9 @@ def error_status_fail(order_id):
 def error_non_exist_order_id(order_id):               
     return 521, error_code[521].format(order_id)
 
+def error_non_exist_address(user_id):            
+    return 522, error_code[522].format(user_id)
+
 
 def error_authorization_fail():
     return 401, error_code[401]
