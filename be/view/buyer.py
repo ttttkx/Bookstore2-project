@@ -21,6 +21,30 @@ def new_order():
     code, message, order_id = b.new_order(user_id, store_id, id_and_count)
     return jsonify({"message": message, "order_id": order_id}), code
 
+@bp_buyer.route("/discount", methods=["POST"])
+def discount():
+    user_id: str = request.json.get("user_id")
+    order_id: str = request.json.get("order_id")
+    b = Buyer()
+    code, price = b.discount(user_id, order_id)
+    return jsonify({"total_price": price}), code
+
+@bp_buyer.route("/postage", methods=["POST"])             
+def postage():
+    user_id: str = request.json.get("user_id")
+    order_id: str = request.json.get("order_id")
+    b = Buyer()
+    code, price = b.postage(user_id, order_id)
+    return jsonify({"postage": price}), code
+
+@bp_buyer.route("/recommend", methods=["POST"])             
+def recommend():
+    store_id: str = request.json.get("store_id")
+    order_id: str = request.json.get("order_id")
+    b = Buyer()
+    code, sale_amount = b.recommend(store_id, order_id)
+    return jsonify({"sale_amount": sale_amount}), code
+
 
 @bp_buyer.route("/payment", methods=["POST"])
 def payment():
