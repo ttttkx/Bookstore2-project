@@ -71,13 +71,12 @@ class TestSearchBooksInStore:
         assert code == 200
 
         res = [i['id'] for i in res['data']]
-        print('搜索结果',res)
 
         right_answer = check_ok()
-        print('真实结果', right_answer)
         assert len(right_answer) == len(res)
         for i in res:
             if i not in right_answer:
-                assert False  # 搜索结果不正确
+
+                assert False
 
 
