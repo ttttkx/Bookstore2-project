@@ -46,3 +46,12 @@ class DBConn:
                 .first()
                 is not None
         )
+        
+    def user_address_exist(self, user_id):              
+        return (
+                (self.conn.query(UserModel)
+                .filter(UserModel.user_id == user_id)
+                .first())
+                .address
+                is not None
+        )
