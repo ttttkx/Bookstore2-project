@@ -25,10 +25,9 @@ def be_shutdown():
     shutdown_server()
     return "Server shutting down..."
 
-# 创建一个函数来初始化和启动定时任务
 def start_order_auto_cancel():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(OrderAutoCancel().cancel_unpaid_orders, 'interval', minutes=1)  # 每隔15分钟触发一次
+    scheduler.add_job(OrderAutoCancel().cancel_unpaid_orders, 'interval', minutes=1) 
     scheduler.start()
     
 def be_run():
