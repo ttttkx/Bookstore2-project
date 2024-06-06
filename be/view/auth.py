@@ -55,3 +55,14 @@ def change_password():
         user_id=user_id, old_password=old_password, new_password=new_password
     )
     return jsonify({"message": message}), code
+
+
+@bp_auth.route("/address", methods=["POST"])      
+def set_address():
+    user_id = request.json.get("user_id", "")
+    address = request.json.get("address", "")
+    u = user.User()
+    code, message = u.set_address(
+        user_id=user_id, address=address
+    )
+    return jsonify({"message": message}), code
