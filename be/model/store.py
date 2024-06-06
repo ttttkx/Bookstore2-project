@@ -13,15 +13,17 @@ class User(Base):
     balance = Column(Integer, nullable=False)
     token = Column(String)
     terminal = Column(String)
+    address = Column(String)      
 
 
 class Store(Base):
     __tablename__ = 'store'
 
     store_id = Column(String,ForeignKey('user_store.store_id'), primary_key=True)
-    book_id = Column(String, primary_key=True)
+    book_id = Column(String, primary_key=True)  
     price = Column(Integer)
     stock_level = Column(Integer)
+    sale_amount = Column(Integer)     
 
 
 class UserStore(Base):
@@ -34,7 +36,7 @@ class UserStore(Base):
 class Book(Base):
     __tablename__ = 'book'
 
-    id = Column('_id', String, primary_key=True, unique=True)
+    id = Column('_id', String, primary_key=True, unique=True)  
     title = Column(String)
     author = Column(String)
     publisher = Column(String)
@@ -60,14 +62,17 @@ class NewOrder(Base):
     user_id = Column(String)
     store_id = Column(String)
     status = Column(String)
+    received_at = Column(String)
+    shipped_at = Column(String)
     created_at = Column(Date, server_default=func.now())
+    address = Column(String)               
 
 
 class NewOrderDetail(Base):
     __tablename__ = 'new_order_detail'
 
     order_id = Column(String, ForeignKey('new_order.order_id'), primary_key=True)
-    book_id = Column(String, primary_key=True)
+    book_id = Column(String, primary_key=True)   
     count = Column(Integer)
     price = Column(Integer)
 
